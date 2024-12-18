@@ -5,7 +5,7 @@ import 'package:ecodrive/Opening/Myloginbutton.dart';
 import 'package:ecodrive/Opening/signup.dart';
 
 import 'package:flutter/material.dart';
-
+import 'package:ecodrive/globals.dart' as globals;
 import 'mytextfield.dart';
 
 class Login extends StatelessWidget {
@@ -40,8 +40,11 @@ class Login extends StatelessWidget {
     print('Password: $password');
     try {
       final userDoc =
-          await FirebaseFirestore.instance.collection('users').doc("7NkW4kOlANKcF9wu1sfx").get();
+      await FirebaseFirestore.instance.collection('users').doc(ekoid).get();
       if (userDoc.exists && userDoc['password'] == password) {
+        globals.currentEkoId = ekoid;
+        print("Current EkoID: ${globals.currentEkoId}");
+
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const MyHomePage()));
       } else {
@@ -99,7 +102,7 @@ class Login extends StatelessWidget {
               const SizedBox(height: 200),
               Text(
                   "Welcome Back ,"
-                  "\nYou've Been Missed!",
+                      "\nYou've Been Missed!",
                   style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
@@ -137,11 +140,11 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
-                    return const Signup();
+                    return  Signup();
                   }));
                 },
                 child:
-                    const Text("Register now", style: TextStyle(color: Colors.blue)),
+                const Text("Register now", style: TextStyle(color: Colors.blue)),
               )
             ],
           ),
